@@ -73,7 +73,7 @@ def Edit_note(request, note_id):
             note.category = category
             note.save()
 
-            messages.success(request, "Note updated successfully.")
+            messages.success(request, "Note updated successfully")
             return redirect('home')
 
         messages.error(
