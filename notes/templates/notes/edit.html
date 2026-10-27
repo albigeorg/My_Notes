@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Note</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-slate-100 px-4 py-10 text-slate-800">
+
+    <main class="mx-auto max-w-2xl">
+
+        <a href="{% url 'home' %}"
+           class="mb-6 inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-800">
+            &larr; Back to notes
+        </a>
+
+        <section class="rounded-2xl bg-white p-6 shadow-lg sm:p-8">
+
+            <div class="mb-8">
+                <p class="mb-2 text-sm font-semibold uppercase tracking-wider text-blue-600">
+                    Personal Notes Manager
+                </p>
+
+                <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+                    Edit Note
+                </h1>
+
+                <p class="mt-2 text-sm text-slate-500">
+                    Update your note details and category.
+                </p>
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="mb-4 rounded-lg border p-3 text-sm
+                        {% if message.tags == 'success' %}
+                            border-green-200 bg-green-50 text-green-700
+                        {% else %}
+                            border-red-200 bg-red-50 text-red-700
+                        {% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="POST" class="space-y-6">
+                {% csrf_token %}
+
+                <div>
+                    <label for="title"
+                           class="mb-2 block text-sm font-semibold text-slate-700">
+                        Note title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        value="{{ note.title }}"
+                        required
+                        class="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                        placeholder="Enter your note title"
+                    >
+                </div>
+
+                <div>
+                    <label for="description"
+                           class="mb-2 block text-sm font-semibold text-slate-700">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows="6"
+                        required
+                        class="w-full resize-y rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                        placeholder="Write your note here..."
+                    >{{ note.description }}</textarea>
+                </div>
+
+                <div>
+                    <label for="category"
+                           class="mb-2 block text-sm font-semibold text-slate-700">
+                        Category
+                    </label>
+
+                    <select
+                        name="category"
+                        id="category"
+                        required
+                        class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                    >
+                        <option value="personal" {% if note.category == "personal" %}selected{% endif %}>
+                            Personal
+                        </option>
+
+                        <option value="study" {% if note.category == "study" %}selected{% endif %}>
+                            Study
+                        </option>
+
+                        <option value="work" {% if note.category == "work" %}selected{% endif %}>
+                            Work
+                        </option>
+
+                        <option value="other" {% if note.category == "other" %}selected{% endif %}>
+                            Other
+                        </option>
+                    </select>
+                </div>
+
+                <div class="flex flex-col gap-3 border-t border-slate-100 pt-5 sm:flex-row">
+
+                    <button
+                        type="submit"
+                        class="flex-1 rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200"
+                    >
+                        Save Changes
+                    </button>
+
+                    <a
+                        href="{% url 'home' %}"
+                        class="rounded-lg border border-slate-300 px-5 py-3 text-center font-semibold text-slate-700 transition hover:bg-slate-50"
+                    >
+                        Cancel
+                    </a>
+
+                </div>
+            </form>
+
+        </section>
+
+        <p class="mt-6 text-center text-xs text-slate-400">
+            Your notes, organized your way.
+        </p>
+
+    </main>
+
+</body>
+
+</html>
